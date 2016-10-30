@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyClassRecord", "MyClassRecord\MyClassRecord.csproj", "{1750CA73-36B5-4BA3-B44B-E50CF8495CAF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassroomAssistantTest", "ClassroomAssistantTest\ClassroomAssistantTest.csproj", "{25784EDB-0BE4-49AF-9F52-E7F205DCAFE7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1750CA73-36B5-4BA3-B44B-E50CF8495CAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1750CA73-36B5-4BA3-B44B-E50CF8495CAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1750CA73-36B5-4BA3-B44B-E50CF8495CAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1750CA73-36B5-4BA3-B44B-E50CF8495CAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25784EDB-0BE4-49AF-9F52-E7F205DCAFE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25784EDB-0BE4-49AF-9F52-E7F205DCAFE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25784EDB-0BE4-49AF-9F52-E7F205DCAFE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25784EDB-0BE4-49AF-9F52-E7F205DCAFE7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
