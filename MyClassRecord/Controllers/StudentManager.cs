@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using MongoDB.Driver;
 using MyClassRecord.Models;
 using MyClassRecord.Models.Repositories;
 using MyClassRecord.Views;
@@ -63,17 +64,18 @@ namespace MyClassRecord.Controllers
 
         public void UpdateStudent(Student selectedStudent)
         {
+            var updateStatement = Builders<Student>.Update
+                .Set("FirstName", selectedStudent.FirstName)
+                .Set("MiddleName", selectedStudent.MiddleName)
+                .Set("LastName", selectedStudent.LastName)
+                .Set("GradeAndSection", selectedStudent.GradeAndSection)
+                .Set("IsActive", selectedStudent.IsActive)
+                .Set("UpdatedBy", Program.LoggedInUser.Username)
+                .CurrentDate("UpdatedDate");
+
+            _studentRepository.Update(selectedStudent.Id, updateStatement);
             
         }
-
-        public Student GetStudentById(string studentNumber)
-        {
-            return null;//TODO
-        }
-
-        
-  
-
 
         //TODO: Add validation
     }

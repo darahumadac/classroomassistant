@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using MyClassRecord.Controllers;
 using MyClassRecord.Models;
@@ -27,8 +20,19 @@ namespace MyClassRecord.Views
         {
             if (_selectedStudent != null)
             {
+                _selectedStudent.FirstName = firstNameTxt.Text;
+                _selectedStudent.MiddleName = middleNameTxt.Text;
+                _selectedStudent.LastName = lastNameTxt.Text;
+                //TODO: Add code for getting class from dropdown
+                _selectedStudent.IsActive = activeCheckbox.Checked;
+
                 _studentManager.UpdateStudent(_selectedStudent);
+                //TODO: Add checking if record was updated successsffully
                 _studentManager.SelectedRecord = null;
+
+                MessageBox.Show("Student record was updated");
+
+                _studentManager.LoadAllRecords();
             }
             else
             {
@@ -39,6 +43,8 @@ namespace MyClassRecord.Views
                     new Class(1, "Test Section")); //TODO: Add code for getting the class
                 
                 _studentManager.AddStudent(newStudent);
+
+                MessageBox.Show("Student record was added");
             }
 
             Dispose();
@@ -59,6 +65,7 @@ namespace MyClassRecord.Views
                 _selectedStudent = _studentManager.SelectedRecord;
 
                 submitBtn.Text = "Save Student";
+                studentNoTxt.Enabled = false;
 
                 studentNoTxt.Text = _selectedStudent.StudentNumber;
                 firstNameTxt.Text = _selectedStudent.FirstName;

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -53,7 +52,9 @@ namespace MyClassRecord.Models.Repositories
 
         public T GetById<T>(object id) where T : class
         {
-            throw new NotImplementedException();
+            var filter = Builders<T>.Filter.Eq("_id", id);
+            return (T)_noSqlDbContext.GetCollection<T>(typeof (T).Name + "s")
+                .Find(filter);
         }
 
         public void Save()
@@ -64,6 +65,16 @@ namespace MyClassRecord.Models.Repositories
         public void Revert()
         {
             throw new NotImplementedException();
+        }
+
+
+        public void Update<T>(ObjectId id, UpdateDefinition<T> updateStatement) where T : class
+        {
+            var filter = Builders<T>.Filter.Eq("_id", id);
+
+            _noSqlDbContext.GetCollection<T>(typeof (T).Name + "s")
+                .UpdateOne(filter, updateStatement);
+            
         }
     }
 }

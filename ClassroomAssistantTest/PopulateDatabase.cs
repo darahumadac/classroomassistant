@@ -36,7 +36,7 @@ namespace ClassroomAssistantTest
                 students.Add(newStudent);
             }
 
-            for (int j = 1; j <= 10; j++)
+            for (int j = 1; j <= 1000; j++)
             {
                 Student newStudent = new Student("1092654" + j, "STUDENT " + j,
                     "MID " + j,

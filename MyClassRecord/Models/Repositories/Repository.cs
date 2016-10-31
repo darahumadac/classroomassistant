@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.InteropServices;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace MyClassRecord.Models.Repositories
@@ -51,6 +51,11 @@ namespace MyClassRecord.Models.Repositories
         public List<T> GetBySearchKeyword(string keyword, string fieldsToSearch)
         {
             return _dataSource.GetBySearchKeyword<T>(keyword, fieldsToSearch);
+        }
+
+        public void Update(ObjectId id, UpdateDefinition<T> updateStatement)
+        {
+            _dataSource.Update(id, updateStatement);
         }
 
 

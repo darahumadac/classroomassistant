@@ -1,5 +1,6 @@
 using System.Collections.Generic;
-using System.Runtime.InteropServices.ComTypes;
+using MongoDB.Bson;
+using MongoDB.Driver;
 
 namespace MyClassRecord.Models.Repositories
 {
@@ -13,5 +14,6 @@ namespace MyClassRecord.Models.Repositories
         List<T> GetBySearchKeyword<T>(string keyword, string fieldName) where T : class;
         void Save();
         void Revert();
+        void Update<T>(ObjectId id, UpdateDefinition<T> updateStatement) where T : class;
     }
 }

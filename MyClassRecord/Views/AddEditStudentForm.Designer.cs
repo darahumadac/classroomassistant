@@ -152,7 +152,7 @@
             // 
             // submitBtn
             // 
-            this.submitBtn.Location = new System.Drawing.Point(102, 256);
+            this.submitBtn.Location = new System.Drawing.Point(102, 248);
             this.submitBtn.Name = "submitBtn";
             this.submitBtn.Size = new System.Drawing.Size(75, 23);
             this.submitBtn.TabIndex = 13;
@@ -162,7 +162,7 @@
             // 
             // cancelBtn
             // 
-            this.cancelBtn.Location = new System.Drawing.Point(189, 256);
+            this.cancelBtn.Location = new System.Drawing.Point(189, 248);
             this.cancelBtn.Name = "cancelBtn";
             this.cancelBtn.Size = new System.Drawing.Size(75, 23);
             this.cancelBtn.TabIndex = 14;
@@ -174,7 +174,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(276, 291);
+            this.ClientSize = new System.Drawing.Size(276, 282);
             this.Controls.Add(this.cancelBtn);
             this.Controls.Add(this.submitBtn);
             this.Controls.Add(this.label3);
