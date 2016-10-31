@@ -5,6 +5,7 @@
         private IAppDataSource _dataSource;
         private Repository<User> _userRepository;
         private Repository<Student> _studentRepository;
+        private Repository<Class> _classRepository;
 
         public AppRepository(IAppDataSource dataSource)
         {
@@ -32,6 +33,18 @@
                     _studentRepository = new Repository<Student>(_dataSource);
                 }
                 return _studentRepository;
+            }
+        }
+
+        public Repository<Class> ClassRepository
+        {
+            get
+            {
+                if (_classRepository == null)
+                {
+                    _classRepository = new Repository<Class>(_dataSource);
+                }
+                return _classRepository;
             }
         }
 

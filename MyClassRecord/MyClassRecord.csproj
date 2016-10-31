@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\LoginManager.cs" />
+    <Compile Include="Controllers\Manager.cs" />
     <Compile Include="Controllers\StudentManager.cs" />
     <Compile Include="Models\Class.cs" />
     <Compile Include="Models\ManagedEntity.cs" />
@@ -70,12 +71,19 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\AddEditClassForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\AddEditClassForm.Designer.cs">
+      <DependentUpon>AddEditClassForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\AddEditStudentForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Views\AddEditStudentForm.Designer.cs">
       <DependentUpon>AddEditStudentForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\ClassManager.cs" />
     <Compile Include="Views\ManageClassForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -133,6 +141,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Views\AddEditClassForm.resx">
+      <DependentUpon>AddEditClassForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\AddEditStudentForm.resx">
       <DependentUpon>AddEditStudentForm.cs</DependentUpon>
     </EmbeddedResource>

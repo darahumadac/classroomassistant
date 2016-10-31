@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -19,8 +20,11 @@ namespace MyClassRecord.Models.Repositories
         public void Add<T>(T entity) where T : class
         {
             var entityBsonDocument = entity.ToBsonDocument();
+            
+            string className = typeof (T).Name;
+            string tableName = className.Last().Equals('s') ? className + "es" : className + "s";
 
-            _noSqlDbContext.GetCollection<BsonDocument>(typeof(T).Name + "s")
+            _noSqlDbContext.GetCollection<BsonDocument>(tableName)
                 .InsertOne(entityBsonDocument);
         }
 
@@ -36,7 +40,10 @@ namespace MyClassRecord.Models.Repositories
 
         public List<T> GetAll<T>() where T : class
         {
-            return _noSqlDbContext.GetCollection<T>(typeof (T).Name + "s")
+            string className = typeof(T).Name;
+            string tableName = className.Last().Equals('s') ? className + "es" : className + "s";
+
+            return _noSqlDbContext.GetCollection<T>(tableName)
                 .Find(FilterDefinition<T>.Empty)
                 .ToList();
         }
@@ -45,7 +52,10 @@ namespace MyClassRecord.Models.Repositories
         {
             var filter = Builders<T>.Filter.Eq(fieldName, keyword);
 
-            return _noSqlDbContext.GetCollection<T>(typeof(T).Name + "s")
+            string className = typeof(T).Name;
+            string tableName = className.Last().Equals('s') ? className + "es" : className + "s";
+
+            return _noSqlDbContext.GetCollection<T>(tableName)
                 .Find(filter)
                 .ToList();
         }
@@ -53,7 +63,11 @@ namespace MyClassRecord.Models.Repositories
         public T GetById<T>(object id) where T : class
         {
             var filter = Builders<T>.Filter.Eq("_id", id);
-            return (T)_noSqlDbContext.GetCollection<T>(typeof (T).Name + "s")
+            
+            string className = typeof(T).Name;
+            string tableName = className.Last().Equals('s') ? className + "es" : className + "s";
+
+            return (T)_noSqlDbContext.GetCollection<T>(tableName)
                 .Find(filter);
         }
 
@@ -72,7 +86,10 @@ namespace MyClassRecord.Models.Repositories
         {
             var filter = Builders<T>.Filter.Eq("_id", id);
 
-            _noSqlDbContext.GetCollection<T>(typeof (T).Name + "s")
+            string className = typeof(T).Name;
+            string tableName = className.Last().Equals('s') ? className + "es" : className + "s";
+
+            _noSqlDbContext.GetCollection<T>(tableName)
                 .UpdateOne(filter, updateStatement);
             
         }

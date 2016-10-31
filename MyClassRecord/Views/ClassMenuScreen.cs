@@ -26,8 +26,14 @@ namespace MyClassRecord.Views
 
         private void manageStudentsBtn_Click(object sender, EventArgs e)
         {
-            ManagerForm managerStudentsScreen = new ManageStudentScreen(_appRepository.StudentRepository);
-            managerStudentsScreen.Show();
+            ManagerForm manageStudentsForm = new ManageStudentScreen(_appRepository.StudentRepository);
+            manageStudentsForm.Show();
+        }
+
+        private void manageClassesBtn_Click(object sender, EventArgs e)
+        {
+            ManagerForm manageClassesForm = new ManageClassForm(_appRepository.ClassRepository);
+            manageClassesForm.Show();
         }
 
     

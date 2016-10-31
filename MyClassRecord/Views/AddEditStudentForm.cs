@@ -26,7 +26,8 @@ namespace MyClassRecord.Views
                 //TODO: Add code for getting class from dropdown
                 _selectedStudent.IsActive = activeCheckbox.Checked;
 
-                _studentManager.UpdateStudent(_selectedStudent);
+                //_studentManager.UpdateStudent(_selectedStudent);
+                _studentManager.UpdateRecord(_selectedStudent);
                 //TODO: Add checking if record was updated successsffully
                 _studentManager.SelectedRecord = null;
 
@@ -40,9 +41,11 @@ namespace MyClassRecord.Views
                     firstNameTxt.Text, 
                     middleNameTxt.Text, 
                     lastNameTxt.Text, 
-                    new Class(1, "Test Section")); //TODO: Add code for getting the class
+                    new Class(1, "Test Section", true),
+                    true); //TODO: Add code for getting the class
                 
-                _studentManager.AddStudent(newStudent);
+                //_studentManager.AddStudent(newStudent);
+                _studentManager.AddRecord(newStudent);
 
                 MessageBox.Show("Student record was added");
             }

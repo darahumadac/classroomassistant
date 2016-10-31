@@ -60,6 +60,7 @@
             this.manageClassesBtn.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.manageClassesBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.manageClassesBtn.UseVisualStyleBackColor = true;
+            this.manageClassesBtn.Click += new System.EventHandler(this.manageClassesBtn_Click);
             // 
             // manageRequirementsBtn
             // 

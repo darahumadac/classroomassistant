@@ -30,7 +30,7 @@ namespace MyClassRecord.Models
 
         public Student() { }
         public Student(string studentNum, string firstName, string middleName, 
-            string lastName, Class gradeAndSection)
+            string lastName, Class gradeAndSection, bool isActive)
         {
             StudentNumber = studentNum;
             FirstName = firstName;

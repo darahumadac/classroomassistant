@@ -34,11 +34,11 @@ namespace ClassroomAssistantTest
                 FirstName = "Darah",
                 MiddleName = "Francisco",
                 LastName = "Umadac",
-                GradeAndSection = new Class(1, "Gumamela"),
+                GradeAndSection = new Class(1, "Gumamela", true),
                 IsActive = true
             };
 
-            Student testStudent2 = new Student("10926542","Betty", "Francisco", "Boop", new Class(6, "Kalachuchi"));
+            Student testStudent2 = new Student("10926542", "Betty", "Francisco", "Boop", new Class(6, "Kalachuchi", true), true);
 
             List<BsonDocument> students = new List<BsonDocument>();
             students.Add(testStudent1.ToBsonDocument());

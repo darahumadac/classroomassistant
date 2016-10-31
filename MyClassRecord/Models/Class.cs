@@ -12,10 +12,11 @@ namespace MyClassRecord.Models
         public int Grade { get; set; }
         public string Section { get; set; }
 
-        public Class(int grade, string section)
+        public Class(int grade, string section, bool isActive)
         {
             Grade = grade;
             Section = section;
+            IsActive = isActive;
         }
 
         public override string ToString()

@@ -30,8 +30,9 @@ namespace ClassroomAssistantTest
             {
                 Student newStudent = new Student("1092654"+i,"STUDENT "+i, 
                     "MID "+i, 
-                    "LASTNAME "+i, 
-                    new Class(i, "SECTION 1"));
+                    "LASTNAME "+i,
+                    new Class(i, "SECTION 1", true),
+                    true);
 
                 students.Add(newStudent);
             }
@@ -41,12 +42,31 @@ namespace ClassroomAssistantTest
                 Student newStudent = new Student("1092654" + j, "STUDENT " + j,
                     "MID " + j,
                     "LASTNAME",
-                    new Class(1, "SECTION 1"));
+                    new Class(1, "SECTION 1", true),
+                    true);
 
                 students.Add(newStudent);
             }
 
             _noSqlDb.GetCollection<Student>("Students").InsertMany(students);
+        }
+
+        [TestMethod]
+        public void PopulateClasses()
+        {
+            Program.LoggedInUser = new User("darah", "darah", true);
+            List<Class> classes = new List<Class>();
+            for (int i = 1; i <= 12; i++)
+            {
+                for (int j = 1; j <= 6; j++)
+                {
+                    Class newClass = new Class(i, "SECTION " + j, true);
+                    classes.Add(newClass);
+                }
+                
+            }
+
+            _noSqlDb.GetCollection<Class>("Classes").InsertMany(classes);
         }
     }
 }
