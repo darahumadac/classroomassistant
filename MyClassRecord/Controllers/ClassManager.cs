@@ -14,10 +14,10 @@ namespace MyClassRecord.Controllers
         {
         }
 
-        public override void InitializeForm()
+        public override void InitializeManageForm()
         {
             _form.findLbl.Text = "Grade/Section";
-            base.InitializeForm();
+            base.InitializeManageForm();
         }
 
         protected override List<Class> GetAllRecordsFromDatabase()
@@ -31,7 +31,7 @@ namespace MyClassRecord.Controllers
                 .OrderBy(c => c.Grade).ToList();
         }
 
-        public void UpdateRecord(ManagedEntity selectedClass)
+        public override bool UpdateRecord(ManagedEntity selectedClass)
         {
             Class currentClass = (Class)selectedClass;
 
@@ -42,8 +42,48 @@ namespace MyClassRecord.Controllers
                 .Set("UpdatedBy", Program.LoggedInUser.Username)
                 .CurrentDate("UpdatedDate");
 
-            base.UpdateRecord(selectedClass, updateStatement);
+            return base.UpdateRecord(selectedClass, updateStatement);
+        }
 
+        //TODO: Add validation
+        public override bool IsValid(ManagedEntity newRecord)
+        {
+            return true;
+        }
+    }
+
+    public class AddEditClassManager : AddEditManager<Class>
+    {
+        private AddEditClassForm _addEditClassForm;
+        public AddEditClassManager(AddEditClassForm addEditClassForm, Manager<Class> classManager)
+            : base(addEditClassForm, classManager)
+        {
+            _addEditClassForm = addEditClassForm;
+        }
+
+        protected override void SetControlValuesForEdit()
+        {
+            _addEditClassForm.submitBtn.Text = "Save Class";
+
+            _addEditClassForm.gradeDropdown.SelectedItem = _manager.SelectedRecord.Grade;
+            _addEditClassForm.sectionTxt.Text = _manager.SelectedRecord.Section;
+
+            _addEditClassForm.activeCheckbox.Checked = _manager.SelectedRecord.IsActive;
+            
+        }
+
+        protected override void SetEntityValuesForUpdate()
+        {
+            _manager.SelectedRecord.Grade = (int)_addEditClassForm.gradeDropdown.SelectedItem;
+            _manager.SelectedRecord.Section = _addEditClassForm.sectionTxt.Text;
+            _manager.SelectedRecord.IsActive = _addEditClassForm.activeCheckbox.Checked;
+        }
+
+        protected override Class ConstructRecordToAdd()
+        {
+            return new Class((int) _addEditClassForm.gradeDropdown.SelectedItem,
+                _addEditClassForm.sectionTxt.Text,
+            _addEditClassForm.activeCheckbox.Checked);
         }
     }
 }

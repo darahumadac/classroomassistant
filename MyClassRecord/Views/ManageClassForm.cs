@@ -15,7 +15,7 @@ namespace MyClassRecord.Views
             InitializeComponent();
 
             _classManager = new ClassManager(this, classRepository);
-            _classManager.InitializeForm();
+            _classManager.InitializeManageForm();
         }
 
         protected override void addBtn_Click(object sender, EventArgs e)
@@ -43,15 +43,23 @@ namespace MyClassRecord.Views
         {
             int gradeLevel;
 
-            if (int.TryParse(searchTxt.Text.Trim(), out gradeLevel))
+            if (string.IsNullOrEmpty(searchTxt.Text))
             {
-                //TODO: Make search by Grade work; can't search by grade because it is int
-                _classManager.LoadRecordsBySearch(searchTxt.Text, "Grade");
+                _classManager.LoadAllRecords();
             }
             else
             {
-                _classManager.LoadRecordsBySearch(searchTxt.Text, "Section");
+                if (int.TryParse(searchTxt.Text.Trim(), out gradeLevel))
+                {
+                    _classManager.LoadRecordsBySearch(searchTxt.Text, "Grade");
+                }
+                else
+                {
+                    _classManager.LoadRecordsBySearch(searchTxt.Text, "Section");
+                }   
             }
+
+            
         }
 
     }

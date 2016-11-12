@@ -6,7 +6,7 @@ namespace MyClassRecord.Models.Repositories
 {
     public interface IAppDataSource
     {
-        void Add<T>(T entity) where T : class;
+        bool Add<T>(T entity) where T : class;
         void Update<T>(T entity) where T : class;
         void Delete<T>(T entity) where T : class;
         List<T> GetAll<T>() where T : class;
@@ -14,6 +14,6 @@ namespace MyClassRecord.Models.Repositories
         List<T> GetBySearchKeyword<T>(string keyword, string fieldName) where T : class;
         void Save();
         void Revert();
-        void Update<T>(ObjectId id, UpdateDefinition<T> updateStatement) where T : class;
+        bool Update<T>(ObjectId id, UpdateDefinition<T> updateStatement) where T : class; 
     }
 }

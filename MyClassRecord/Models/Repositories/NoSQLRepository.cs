@@ -17,15 +17,25 @@ namespace MyClassRecord.Models.Repositories
                 .ConnectionStrings["ExamMakerNoSQLContext"].ConnectionString).GetDatabase("EXAMMAKERD");
         }
 
-        public void Add<T>(T entity) where T : class
+        public bool Add<T>(T entity) where T : class
         {
             var entityBsonDocument = entity.ToBsonDocument();
             
             string className = typeof (T).Name;
             string tableName = className.Last().Equals('s') ? className + "es" : className + "s";
 
-            _noSqlDbContext.GetCollection<BsonDocument>(tableName)
-                .InsertOne(entityBsonDocument);
+            try
+            {
+                _noSqlDbContext.GetCollection<BsonDocument>(tableName)
+                    .InsertOne(entityBsonDocument);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+             
         }
 
         public void Update<T>(T entity) where T : class
@@ -50,7 +60,14 @@ namespace MyClassRecord.Models.Repositories
 
         public List<T> GetBySearchKeyword<T>(string keyword, string fieldName) where T : class
         {
-            var filter = Builders<T>.Filter.Eq(fieldName, keyword);
+            var builder = Builders<T>.Filter;
+            var filter = builder.Eq(fieldName, keyword);
+
+            int numericKeyword;
+            if (int.TryParse(keyword, out numericKeyword))
+            {
+                filter = builder.Eq(fieldName, keyword) | builder.Eq(fieldName, numericKeyword);
+            }
 
             string className = typeof(T).Name;
             string tableName = className.Last().Equals('s') ? className + "es" : className + "s";
@@ -82,16 +99,20 @@ namespace MyClassRecord.Models.Repositories
         }
 
 
-        public void Update<T>(ObjectId id, UpdateDefinition<T> updateStatement) where T : class
+        public bool Update<T>(ObjectId id, UpdateDefinition<T> updateStatement) where T : class
         {
             var filter = Builders<T>.Filter.Eq("_id", id);
 
             string className = typeof(T).Name;
             string tableName = className.Last().Equals('s') ? className + "es" : className + "s";
 
-            _noSqlDbContext.GetCollection<T>(tableName)
-                .UpdateOne(filter, updateStatement);
             
+            var updateResult = _noSqlDbContext.GetCollection<T>(tableName)
+                .UpdateOne(filter, updateStatement);
+
+            bool wasSuccessful = updateResult.ModifiedCount == 1;
+
+            return wasSuccessful;
         }
     }
 }

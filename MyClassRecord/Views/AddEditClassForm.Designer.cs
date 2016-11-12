@@ -125,11 +125,11 @@
         #endregion
 
         private System.Windows.Forms.Label gradeLbl;
-        private System.Windows.Forms.TextBox sectionTxt;
         private System.Windows.Forms.Label sectionLbl;
         private System.Windows.Forms.Button cancelBtn;
-        private System.Windows.Forms.Button submitBtn;
-        private System.Windows.Forms.ComboBox gradeDropdown;
-        private System.Windows.Forms.CheckBox activeCheckbox;
+        internal System.Windows.Forms.Button submitBtn;
+        internal System.Windows.Forms.TextBox sectionTxt;
+        internal System.Windows.Forms.ComboBox gradeDropdown;
+        internal System.Windows.Forms.CheckBox activeCheckbox;
     }
 }

@@ -203,15 +203,15 @@
         private System.Windows.Forms.Label lastNameLbl;
         private System.Windows.Forms.Label middelNameLbl;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox firstNameTxt;
-        private System.Windows.Forms.TextBox middleNameTxt;
-        private System.Windows.Forms.TextBox lastNameTxt;
-        private System.Windows.Forms.ComboBox classDropdown;
-        private System.Windows.Forms.CheckBox activeCheckbox;
-        private System.Windows.Forms.TextBox studentNoTxt;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button submitBtn;
-        private System.Windows.Forms.Button cancelBtn;
+        internal System.Windows.Forms.TextBox firstNameTxt;
+        internal System.Windows.Forms.TextBox middleNameTxt;
+        internal System.Windows.Forms.TextBox lastNameTxt;
+        internal System.Windows.Forms.ComboBox classDropdown;
+        internal System.Windows.Forms.CheckBox activeCheckbox;
+        internal System.Windows.Forms.TextBox studentNoTxt;
+        internal System.Windows.Forms.Button submitBtn;
+        internal System.Windows.Forms.Button cancelBtn;
     }
 }

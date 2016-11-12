@@ -11,13 +11,15 @@ using MyClassRecord.Views;
 
 namespace MyClassRecord.Controllers
 {
-    public class Manager<T> where T : ManagedEntity 
+    public abstract class Manager<T> where T : ManagedEntity 
     {
         protected ManagerForm _form;
         protected Repository<T> _repository;
         protected List<T> _recordsList;
+        protected Form _addEditForm;
 
         public T SelectedRecord { get; set; }
+        public Form AddEditForm { get; set; }
 
         public Manager(ManagerForm form, Repository<T> repository)
         {
@@ -25,14 +27,8 @@ namespace MyClassRecord.Controllers
             _repository = repository;
         }
 
-        public virtual void InitializeForm()
+        public virtual void InitializeManageForm()
         {
-            LoadAllRecords();
-        }
-
-        public virtual void AddRecord(ManagedEntity newStudent)
-        {
-            _repository.Add((T)newStudent);
             LoadAllRecords();
         }
 
@@ -42,12 +38,6 @@ namespace MyClassRecord.Controllers
 
             _recordsList = GetAllRecordsFromDatabase();
             InitializeDataGrid(_recordsList);
-        }
-
-        //Override this to sort records
-        protected virtual List<T> GetAllRecordsFromDatabase()
-        {
-            return _repository.GetAll().ToList();
         }
 
         protected virtual void InitializeDataGrid(List<T> recordsList)
@@ -60,7 +50,12 @@ namespace MyClassRecord.Controllers
                 _form.listGridView.Rows[0].Selected = true;
                 _form.editBtn.Enabled = true;
             }
+        }
 
+        //Override this to sort records
+        protected virtual List<T> GetAllRecordsFromDatabase()
+        {
+            return _repository.GetAll().ToList();
         }
 
         public void LoadRecordsBySearch(string keywordSearch, string fieldName)
@@ -73,12 +68,29 @@ namespace MyClassRecord.Controllers
         protected virtual List<T> GetRecordsFromDatabaseByKeyword(string keywordSearch, string fieldName)
         {
             return _repository.GetBySearchKeyword(keywordSearch, fieldName);
-        } 
-
-        public void UpdateRecord(ManagedEntity selectedRecord, UpdateDefinition<T> updateStatement)
-        {
-            _repository.Update(selectedRecord.Id, updateStatement);
-
         }
+
+        public virtual bool AddRecord(ManagedEntity newRecord)
+        {
+            if (_repository.Add((T) newRecord))
+            {
+                LoadAllRecords();
+                return true;
+            }
+
+            return false;
+        }
+
+        public abstract bool UpdateRecord(ManagedEntity recordToUpdate);
+
+        protected bool UpdateRecord(ManagedEntity selectedRecord, UpdateDefinition<T> updateStatement)
+        {
+            return _repository.Update(selectedRecord.Id, updateStatement);
+        }
+
+        public abstract bool IsValid(ManagedEntity newRecord);
+
+       
+
     }
 }

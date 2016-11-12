@@ -9,75 +9,29 @@ namespace MyClassRecord.Controllers
 {
     public class StudentManager : Manager<Student>
     {
-        //private readonly ManageStudentScreen _manageStudentScreen;
-        //private readonly Repository<Student> _studentRepository;
-        //private List<Student> _students;
-
-        //public Student SelectedRecord { get; set; }
-
         public StudentManager(ManageStudentScreen manageStudentScreen, Repository<Student> studentRepository)
             : base(manageStudentScreen, studentRepository)
         {
-            //_manageStudentScreen = manageStudentScreen;
-            //_studentRepository = studentRepository;
         }
 
-        public override void InitializeForm()
+        public override void InitializeManageForm()
         {
             _form.findLbl.Text = "ID No./Last Name";
-            //_manageStudentScreen.findLbl.Text = "ID No./Last Name";
-            base.InitializeForm();//LoadAllRecords();
+            base.InitializeManageForm();
         }
-
-        //public void AddRecord(ManagedEntity newStudent)
-        //{
-        //    _studentRepository.Add((Student)newStudent);
-        //    LoadAllRecords();
-        //}
-
-        //public void LoadAllRecords()
-        //{
-        //    _manageStudentScreen.searchTxt.Clear();
-
-        //    _students = _studentRepository.GetAll().OrderBy(s => s.LastName).ToList();
-        //    InitializeDataGrid(_students);
-        //}
 
         protected override List<Student> GetAllRecordsFromDatabase()
         {
-            //return _studentRepository.GetAll().OrderBy(s => s.LastName).ToList();
             return _repository.GetAll().OrderBy(s => s.LastName).ToList();
         }
 
         protected override List<Student> GetRecordsFromDatabaseByKeyword(string keywordSearch, string fieldName)
         {
-            //return _studentRepository.GetBySearchKeyword(keywordSearch, fieldName)
-            //    .OrderBy(s => s.LastName).ToList();
             return _repository.GetBySearchKeyword(keywordSearch, fieldName)
                 .OrderBy(s => s.LastName).ToList();
         }
 
-        //private void InitializeDataGrid(List<Student> studentList)
-        //{
-        //    _manageStudentScreen.listGridView.DataSource = studentList;
-
-        //    _manageStudentScreen.totalRecordsLbl.Text = string.Format("{0} records", studentList.Count);
-        //    if (studentList.Count > 0)
-        //    {
-        //        _manageStudentScreen.listGridView.Rows[0].Selected = true;
-        //        _manageStudentScreen.editBtn.Enabled = true;
-        //    }
-
-        //}
-
-        //public void LoadRecordsBySearch(string keywordSearch, string fieldName)
-        //{
-        //    _students = _studentRepository.GetBySearchKeyword(keywordSearch, fieldName)
-        //        .OrderBy(s => s.LastName).ToList();
-        //    InitializeDataGrid(_students);
-        //}
-
-        public void UpdateRecord(ManagedEntity selectedStudent)
+        public override bool UpdateRecord(ManagedEntity selectedStudent)
         {
             Student currentStudent = (Student)selectedStudent;
 
@@ -90,11 +44,58 @@ namespace MyClassRecord.Controllers
                 .Set("UpdatedBy", Program.LoggedInUser.Username)
                 .CurrentDate("UpdatedDate");
 
-            //_studentRepository.Update(selectedStudent.Id, updateStatement);
-            base.UpdateRecord(selectedStudent, updateStatement);
+            return base.UpdateRecord(selectedStudent, updateStatement);
             
         }
 
         //TODO: Add validation
+        public override bool IsValid(ManagedEntity newRecord)
+        {
+            return true;
+        }
+    }
+
+    public class AddEditStudentManager : AddEditManager<Student>
+    {
+        private AddEditStudentForm _addEditStudentForm;
+
+        public AddEditStudentManager(AddEditStudentForm addEditStudentForm, Manager<Student> studentManager) 
+            : base(addEditStudentForm, studentManager)
+        {
+            _addEditStudentForm = addEditStudentForm;
+        }
+
+        protected override void SetControlValuesForEdit()
+        {
+            _addEditStudentForm.submitBtn.Text = "Save Student";
+            _addEditStudentForm.studentNoTxt.Enabled = false;
+
+            _addEditStudentForm.studentNoTxt.Text = _manager.SelectedRecord.StudentNumber;
+            _addEditStudentForm.firstNameTxt.Text = _manager.SelectedRecord.FirstName;
+            _addEditStudentForm.middleNameTxt.Text = _manager.SelectedRecord.MiddleName;
+            _addEditStudentForm.lastNameTxt.Text = _manager.SelectedRecord.LastName;
+            //TODO: Add code for selecting class here
+            _addEditStudentForm.activeCheckbox.Checked = _manager.SelectedRecord.IsActive;
+            
+        }
+
+        protected override void SetEntityValuesForUpdate()
+        {
+            _manager.SelectedRecord.FirstName = _addEditStudentForm.firstNameTxt.Text;
+            _manager.SelectedRecord.MiddleName = _addEditStudentForm.middleNameTxt.Text;
+            _manager.SelectedRecord.LastName = _addEditStudentForm.lastNameTxt.Text;
+            //TODO: Add code for getting class from dropdown
+            _manager.SelectedRecord.IsActive = _addEditStudentForm.activeCheckbox.Checked;
+        }
+
+        protected override Student ConstructRecordToAdd()
+        {
+            return new Student(_addEditStudentForm.studentNoTxt.Text,
+                    _addEditStudentForm.firstNameTxt.Text,
+                    _addEditStudentForm.middleNameTxt.Text,
+                    _addEditStudentForm.lastNameTxt.Text,
+                    new Class(1, "Test Section", true), //TODO: Add code for getting the class
+                    _addEditStudentForm.activeCheckbox.Checked); 
+        }
     }
 }

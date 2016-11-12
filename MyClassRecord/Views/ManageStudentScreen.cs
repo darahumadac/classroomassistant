@@ -22,7 +22,7 @@ namespace MyClassRecord.Views
 
             _studentManager = new StudentManager(this, studentRepository);
             
-            _studentManager.InitializeForm();
+            _studentManager.InitializeManageForm();
         }
 
         protected override void addBtn_Click(object sender, EventArgs e)

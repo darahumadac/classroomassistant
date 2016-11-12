@@ -13,9 +13,9 @@ namespace MyClassRecord.Models.Repositories
             _dataSource = dataSource;
         }
 
-        public void Add(T entity)
+        public bool Add(T entity)
         {
-            _dataSource.Add(entity);
+            return _dataSource.Add(entity);
         }
 
         public void Update(T entity)
@@ -53,9 +53,9 @@ namespace MyClassRecord.Models.Repositories
             return _dataSource.GetBySearchKeyword<T>(keyword, fieldsToSearch);
         }
 
-        public void Update(ObjectId id, UpdateDefinition<T> updateStatement)
+        public bool Update(ObjectId id, UpdateDefinition<T> updateStatement)
         {
-            _dataSource.Update(id, updateStatement);
+           return _dataSource.Update(id, updateStatement);
         }
 
 
