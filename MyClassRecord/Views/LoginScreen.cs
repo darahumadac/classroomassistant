@@ -19,6 +19,9 @@ namespace MyClassRecord.Views
 
             _appRepository = appRepository;
             _loginManager = new LoginManager(appRepository.UserRepository);
+
+            //Assign Lazy Loading Repositories
+            LazyLoadingRepository.ClassRepository = _appRepository.ClassRepository;
         }
 
         private void loginBtn_Click(object sender, EventArgs e)

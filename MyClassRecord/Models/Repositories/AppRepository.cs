@@ -54,4 +54,9 @@
         }
 
     }
+
+    public static class LazyLoadingRepository
+    {
+        public static Repository<Class> ClassRepository { get; set; }
+    }
 }

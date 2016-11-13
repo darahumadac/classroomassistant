@@ -24,6 +24,7 @@ namespace ClassroomAssistantTest
         [TestMethod]
         public void PopulateStudents()
         {
+            LazyLoadingRepository.ClassRepository = new Repository<Class>(new NoSQLRepository());
             Program.LoggedInUser = new User("darah", "darah", true);
             List<Student> students = new List<Student>();
             for (int i = 1; i <= 15; i++)
@@ -31,7 +32,7 @@ namespace ClassroomAssistantTest
                 Student newStudent = new Student("1092654"+i,"STUDENT "+i, 
                     "MID "+i, 
                     "LASTNAME "+i,
-                    new Class(i, "SECTION 1", true),
+                    new ObjectId("58175517c74322225c41f733"), 
                     true);
 
                 students.Add(newStudent);
@@ -42,7 +43,7 @@ namespace ClassroomAssistantTest
                 Student newStudent = new Student("1092654" + j, "STUDENT " + j,
                     "MID " + j,
                     "LASTNAME",
-                    new Class(1, "SECTION 1", true),
+                    new ObjectId("58175517c74322225c41f753"), 
                     true);
 
                 students.Add(newStudent);

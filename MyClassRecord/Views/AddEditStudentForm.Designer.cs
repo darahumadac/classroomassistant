@@ -31,17 +31,19 @@
             this.firstNameLbl = new System.Windows.Forms.Label();
             this.lastNameLbl = new System.Windows.Forms.Label();
             this.middelNameLbl = new System.Windows.Forms.Label();
-            this.classLbl = new System.Windows.Forms.Label();
+            this.gradeLbl = new System.Windows.Forms.Label();
             this.firstNameTxt = new System.Windows.Forms.TextBox();
             this.middleNameTxt = new System.Windows.Forms.TextBox();
             this.lastNameTxt = new System.Windows.Forms.TextBox();
-            this.classDropdown = new System.Windows.Forms.ComboBox();
+            this.gradeDropdown = new System.Windows.Forms.ComboBox();
             this.activeCheckbox = new System.Windows.Forms.CheckBox();
             this.studentNoTxt = new System.Windows.Forms.TextBox();
             this.studentNoLbl = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.submitBtn = new System.Windows.Forms.Button();
             this.cancelBtn = new System.Windows.Forms.Button();
+            this.sectionDropdown = new System.Windows.Forms.ComboBox();
+            this.sectionLbl = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // firstNameLbl
@@ -71,14 +73,14 @@
             this.middelNameLbl.TabIndex = 2;
             this.middelNameLbl.Text = "Middle Name";
             // 
-            // classLbl
+            // gradeLbl
             // 
-            this.classLbl.AutoSize = true;
-            this.classLbl.Location = new System.Drawing.Point(20, 190);
-            this.classLbl.Name = "classLbl";
-            this.classLbl.Size = new System.Drawing.Size(77, 13);
-            this.classLbl.TabIndex = 3;
-            this.classLbl.Text = "Grade/Section";
+            this.gradeLbl.AutoSize = true;
+            this.gradeLbl.Location = new System.Drawing.Point(60, 190);
+            this.gradeLbl.Name = "gradeLbl";
+            this.gradeLbl.Size = new System.Drawing.Size(36, 13);
+            this.gradeLbl.TabIndex = 3;
+            this.gradeLbl.Text = "Grade";
             // 
             // firstNameTxt
             // 
@@ -104,22 +106,21 @@
             this.lastNameTxt.Size = new System.Drawing.Size(140, 20);
             this.lastNameTxt.TabIndex = 7;
             // 
-            // classDropdown
+            // gradeDropdown
             // 
-            this.classDropdown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.classDropdown.FormattingEnabled = true;
-            this.classDropdown.Items.AddRange(new object[] {
-            "1 - Test Section"});
-            this.classDropdown.Location = new System.Drawing.Point(103, 187);
-            this.classDropdown.Name = "classDropdown";
-            this.classDropdown.Size = new System.Drawing.Size(139, 21);
-            this.classDropdown.TabIndex = 8;
+            this.gradeDropdown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.gradeDropdown.FormattingEnabled = true;
+            this.gradeDropdown.Location = new System.Drawing.Point(103, 187);
+            this.gradeDropdown.Name = "gradeDropdown";
+            this.gradeDropdown.Size = new System.Drawing.Size(74, 21);
+            this.gradeDropdown.TabIndex = 8;
+            this.gradeDropdown.SelectedIndexChanged += new System.EventHandler(this.GradeDropdown_SelectedIndexChanged);
             // 
             // activeCheckbox
             // 
             this.activeCheckbox.AutoSize = true;
             this.activeCheckbox.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.activeCheckbox.Location = new System.Drawing.Point(54, 225);
+            this.activeCheckbox.Location = new System.Drawing.Point(54, 253);
             this.activeCheckbox.Name = "activeCheckbox";
             this.activeCheckbox.Size = new System.Drawing.Size(62, 17);
             this.activeCheckbox.TabIndex = 9;
@@ -155,7 +156,7 @@
             // 
             // submitBtn
             // 
-            this.submitBtn.Location = new System.Drawing.Point(102, 248);
+            this.submitBtn.Location = new System.Drawing.Point(102, 276);
             this.submitBtn.Name = "submitBtn";
             this.submitBtn.Size = new System.Drawing.Size(75, 23);
             this.submitBtn.TabIndex = 13;
@@ -165,7 +166,7 @@
             // 
             // cancelBtn
             // 
-            this.cancelBtn.Location = new System.Drawing.Point(189, 248);
+            this.cancelBtn.Location = new System.Drawing.Point(189, 276);
             this.cancelBtn.Name = "cancelBtn";
             this.cancelBtn.Size = new System.Drawing.Size(75, 23);
             this.cancelBtn.TabIndex = 14;
@@ -173,22 +174,44 @@
             this.cancelBtn.UseVisualStyleBackColor = true;
             this.cancelBtn.Click += new System.EventHandler(this.cancelBtn_Click);
             // 
+            // sectionDropdown
+            // 
+            this.sectionDropdown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.sectionDropdown.FormattingEnabled = true;
+            this.sectionDropdown.Items.AddRange(new object[] {
+            "1 - Test Section"});
+            this.sectionDropdown.Location = new System.Drawing.Point(103, 214);
+            this.sectionDropdown.Name = "sectionDropdown";
+            this.sectionDropdown.Size = new System.Drawing.Size(139, 21);
+            this.sectionDropdown.TabIndex = 15;
+            // 
+            // sectionLbl
+            // 
+            this.sectionLbl.AutoSize = true;
+            this.sectionLbl.Location = new System.Drawing.Point(53, 217);
+            this.sectionLbl.Name = "sectionLbl";
+            this.sectionLbl.Size = new System.Drawing.Size(43, 13);
+            this.sectionLbl.TabIndex = 16;
+            this.sectionLbl.Text = "Section";
+            // 
             // AddEditStudentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(276, 282);
+            this.ClientSize = new System.Drawing.Size(276, 311);
+            this.Controls.Add(this.sectionLbl);
+            this.Controls.Add(this.sectionDropdown);
             this.Controls.Add(this.cancelBtn);
             this.Controls.Add(this.submitBtn);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.studentNoTxt);
             this.Controls.Add(this.studentNoLbl);
             this.Controls.Add(this.activeCheckbox);
-            this.Controls.Add(this.classDropdown);
+            this.Controls.Add(this.gradeDropdown);
             this.Controls.Add(this.lastNameTxt);
             this.Controls.Add(this.middleNameTxt);
             this.Controls.Add(this.firstNameTxt);
-            this.Controls.Add(this.classLbl);
+            this.Controls.Add(this.gradeLbl);
             this.Controls.Add(this.middelNameLbl);
             this.Controls.Add(this.lastNameLbl);
             this.Controls.Add(this.firstNameLbl);
@@ -206,7 +229,7 @@
         internal System.Windows.Forms.TextBox firstNameTxt;
         internal System.Windows.Forms.TextBox middleNameTxt;
         internal System.Windows.Forms.TextBox lastNameTxt;
-        internal System.Windows.Forms.ComboBox classDropdown;
+        internal System.Windows.Forms.ComboBox gradeDropdown;
         internal System.Windows.Forms.CheckBox activeCheckbox;
         internal System.Windows.Forms.TextBox studentNoTxt;
         internal System.Windows.Forms.Button submitBtn;
@@ -214,7 +237,9 @@
         internal System.Windows.Forms.Label firstNameLbl;
         internal System.Windows.Forms.Label lastNameLbl;
         internal System.Windows.Forms.Label middelNameLbl;
-        internal System.Windows.Forms.Label classLbl;
+        internal System.Windows.Forms.Label gradeLbl;
         internal System.Windows.Forms.Label studentNoLbl;
+        internal System.Windows.Forms.ComboBox sectionDropdown;
+        internal System.Windows.Forms.Label sectionLbl;
     }
 }

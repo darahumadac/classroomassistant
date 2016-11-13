@@ -84,8 +84,8 @@ namespace MyClassRecord.Models.Repositories
             string className = typeof(T).Name;
             string tableName = className.Last().Equals('s') ? className + "es" : className + "s";
 
-            return (T)_noSqlDbContext.GetCollection<T>(tableName)
-                .Find(filter);
+            return _noSqlDbContext.GetCollection<T>(tableName)
+                .Find(filter).Single();
         }
 
         public void Save()

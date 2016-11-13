@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using MyClassRecord.Models.Repositories;
 
 namespace MyClassRecord.Models
 {
@@ -23,21 +24,24 @@ namespace MyClassRecord.Models
 
         [DisplayName("Last Name")]
         public string LastName { get; set; }
+
+        [Browsable(false)]
+        public ObjectId ClassId { get; set; }
         
         [DisplayName("Grade/Section")]
         public Class GradeAndSection { get; set; }
 
-
         public Student() { }
-        public Student(string studentNum, string firstName, string middleName, 
-            string lastName, Class gradeAndSection, bool isActive)
+        public Student(string studentNum, string firstName, string middleName,
+            string lastName, ObjectId classId, bool isActive)
         {
             StudentNumber = studentNum;
             FirstName = firstName;
             MiddleName = middleName;
             LastName = lastName;
-            GradeAndSection = gradeAndSection;
-            IsActive = true;
+            ClassId = classId;
+            GradeAndSection = LazyLoadingRepository.ClassRepository.GetById(ClassId);
+            IsActive = isActive;
         }
 
     }

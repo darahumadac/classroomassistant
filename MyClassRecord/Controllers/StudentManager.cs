@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Windows.Forms;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using MyClassRecord.Models;
 using MyClassRecord.Models.Repositories;
@@ -10,7 +12,10 @@ namespace MyClassRecord.Controllers
 {
     public class StudentManager : Manager<Student>
     {
-        public StudentManager(ManageStudentScreen manageStudentScreen, Repository<Student> studentRepository)
+        public Repository<Class> ClassRepository { get; set; }
+
+        public StudentManager(ManageStudentScreen manageStudentScreen, 
+                            Repository<Student> studentRepository)
             : base(manageStudentScreen, studentRepository)
         {
         }
@@ -54,11 +59,25 @@ namespace MyClassRecord.Controllers
     public class AddEditStudentManager : AddEditManager<Student>
     {
         private readonly AddEditStudentForm _addEditStudentForm;
+        private Repository<Class> _classRepository;
 
         public AddEditStudentManager(AddEditStudentForm addEditStudentForm, Manager<Student> studentManager) 
             : base(addEditStudentForm, studentManager)
         {
             _addEditStudentForm = addEditStudentForm;
+            _classRepository = LazyLoadingRepository.ClassRepository;
+
+        }
+
+        public void PopulateSectionDropdown(int selectedGradeLevel)
+        {
+            _addEditStudentForm.sectionDropdown.Items.Clear();
+
+            List<Class> classes = _classRepository.GetAll().FindAll(c => c.Grade == selectedGradeLevel);
+            foreach (var gradeAndSection in classes)
+            {
+                _addEditStudentForm.sectionDropdown.Items.Add(gradeAndSection.Section);
+            }
         }
 
         protected override void InitializeColorOfLabels()
@@ -66,7 +85,7 @@ namespace MyClassRecord.Controllers
             _addEditStudentForm.firstNameLbl.ForeColor = Color.Black;
             _addEditStudentForm.middelNameLbl.ForeColor = Color.Black;
             _addEditStudentForm.lastNameLbl.ForeColor = Color.Black;
-            _addEditStudentForm.classLbl.ForeColor = Color.Black;
+            _addEditStudentForm.gradeLbl.ForeColor = Color.Black;
             _addEditStudentForm.studentNoLbl.ForeColor = Color.Black;
         }
 
@@ -90,9 +109,9 @@ namespace MyClassRecord.Controllers
 
         private bool validateClass()
         {
-            if (_addEditStudentForm.classDropdown.SelectedItem == null)
+            if (_addEditStudentForm.gradeDropdown.SelectedItem == null)
             {
-                _addEditStudentForm.classLbl.ForeColor = Color.Red;
+                _addEditStudentForm.gradeLbl.ForeColor = Color.Red;
                 return false;
             }
 
@@ -169,11 +188,15 @@ namespace MyClassRecord.Controllers
 
         protected override Student ConstructRecordToAdd()
         {
+            ObjectId classId = _classRepository.GetAll()
+                                .First(c => c.Grade == _addEditStudentForm.gradeDropdown.SelectedIndex + 1 &&
+                                c.Section == (string)_addEditStudentForm.sectionDropdown.SelectedItem).Id;
+
             return new Student(_addEditStudentForm.studentNoTxt.Text,
                     _addEditStudentForm.firstNameTxt.Text,
                     _addEditStudentForm.middleNameTxt.Text,
                     _addEditStudentForm.lastNameTxt.Text,
-                    new Class(1, "Test Section", true), //TODO: Add code for getting the class
+                    classId,
                     _addEditStudentForm.activeCheckbox.Checked); 
         }
     }
