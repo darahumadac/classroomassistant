@@ -130,6 +130,8 @@ namespace MyClassRecord.Controllers
             _manager.SelectedRecord.Grade = (int)_addEditClassForm.gradeDropdown.SelectedItem;
             _manager.SelectedRecord.Section = _addEditClassForm.sectionTxt.Text;
             _manager.SelectedRecord.IsActive = _addEditClassForm.activeCheckbox.Checked;
+
+            //TODO: Deactivate students when class is deactivated
         }
 
         protected override Class ConstructRecordToAdd()

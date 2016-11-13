@@ -72,8 +72,9 @@ namespace MyClassRecord.Controllers
         public void PopulateSectionDropdown(int selectedGradeLevel)
         {
             _addEditStudentForm.sectionDropdown.Items.Clear();
-
-            List<Class> classes = _classRepository.GetAll().FindAll(c => c.Grade == selectedGradeLevel);
+            
+            List<Class> classes = _classRepository.GetAll()
+                .FindAll(c => c.Grade == selectedGradeLevel && c.IsActive);
             foreach (var gradeAndSection in classes)
             {
                 _addEditStudentForm.sectionDropdown.Items.Add(gradeAndSection.Section);
