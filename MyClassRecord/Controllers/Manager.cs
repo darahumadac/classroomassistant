@@ -21,7 +21,7 @@ namespace MyClassRecord.Controllers
         public T SelectedRecord { get; set; }
         public Form AddEditForm { get; set; }
 
-        public Manager(ManagerForm form, Repository<T> repository)
+        protected Manager(ManagerForm form, Repository<T> repository)
         {
             _form = form;
             _repository = repository;
@@ -53,7 +53,7 @@ namespace MyClassRecord.Controllers
         }
 
         //Override this to sort records
-        protected virtual List<T> GetAllRecordsFromDatabase()
+        public virtual List<T> GetAllRecordsFromDatabase()
         {
             return _repository.GetAll().ToList();
         }
@@ -87,8 +87,6 @@ namespace MyClassRecord.Controllers
         {
             return _repository.Update(selectedRecord.Id, updateStatement);
         }
-
-        public abstract bool IsValid(ManagedEntity newRecord);
 
        
 

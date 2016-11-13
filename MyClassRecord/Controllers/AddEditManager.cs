@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using MyClassRecord.Models;
+using MyClassRecord.Models.Repositories;
 using MyClassRecord.Views;
 
 namespace MyClassRecord.Controllers
@@ -12,12 +13,20 @@ namespace MyClassRecord.Controllers
     {
         protected  AddEditForm _addEditForm;
         protected Manager<T> _manager;
-        
+
         protected AddEditManager(AddEditForm addEditForm, Manager<T> manager)
         {
             _addEditForm = addEditForm;
             _manager = manager;
         }
+
+        protected abstract void SetControlValuesForEdit();
+        protected abstract void SetEntityValuesForUpdate();
+        protected abstract void InitializeColorOfLabels();
+        protected abstract bool ValidateInputsForAdd();
+        protected abstract bool ValidateInputsForUpdate(ManagedEntity record);
+        protected abstract bool IsExisting(ManagedEntity record);
+        protected abstract T ConstructRecordToAdd();
 
         public void InitializeForm()
         {
@@ -27,31 +36,38 @@ namespace MyClassRecord.Controllers
             }
         }
 
-        protected abstract void SetControlValuesForEdit();
-        protected abstract void SetEntityValuesForUpdate();
-
         public void Submit()
         {
+            InitializeColorOfLabels();
+
             if (_manager.SelectedRecord != null)
             {
                 SetEntityValuesForUpdate();
-                
-                if (_manager.IsValid(_manager.SelectedRecord))
+
+                if (ValidateInputsForUpdate(_manager.SelectedRecord))
                 {
-                    if (_manager.UpdateRecord(_manager.SelectedRecord))
+                    if (!IsExisting(_manager.SelectedRecord))
                     {
-                        _manager.SelectedRecord = null;
+                        if (_manager.UpdateRecord(_manager.SelectedRecord))
+                        {
+                            _manager.SelectedRecord = null;
 
-                        MessageBox.Show("Record was updated");
+                            MessageBox.Show("Record was updated");
 
-                        _manager.LoadAllRecords();
+                            _manager.LoadAllRecords();
+
+                            _addEditForm.Dispose();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Cannot update record. Try again");
+                        }
                     }
                     else
                     {
-                        MessageBox.Show("Cannot update record. Try again");
+                        MessageBox.Show("Cannot add record. Record already exists");
                     }
-                    
-                    
+
                 }
                 else
                 {
@@ -61,17 +77,25 @@ namespace MyClassRecord.Controllers
             }
             else
             {
-                T recordToAdd = ConstructRecordToAdd();
-                
-                if (_manager.IsValid(recordToAdd) )
+                if (ValidateInputsForAdd())
                 {
-                    if (_manager.AddRecord(recordToAdd))
+                    T recordToAdd = ConstructRecordToAdd();
+
+                    if (!IsExisting(recordToAdd))
                     {
-                        MessageBox.Show("Record was added");
+                        if (_manager.AddRecord(recordToAdd))
+                        {
+                            MessageBox.Show("Record was added");
+                            _addEditForm.Dispose();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Cannot add record. Try again");
+                        }
                     }
                     else
                     {
-                        MessageBox.Show("Cannot add record. Try again");
+                        MessageBox.Show("Cannot add record. Record already exists");
                     }
                 }
                 else
@@ -80,14 +104,12 @@ namespace MyClassRecord.Controllers
                 }
 
             }
-
-            _addEditForm.Dispose();
         }
 
-        protected abstract T ConstructRecordToAdd();
         public void Cancel()
         {
             _manager.SelectedRecord = null;
+            _manager.LoadAllRecords();
             _addEditForm.Dispose();
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using MongoDB.Driver;
 using MyClassRecord.Models;
@@ -20,7 +21,7 @@ namespace MyClassRecord.Controllers
             base.InitializeManageForm();
         }
 
-        protected override List<Student> GetAllRecordsFromDatabase()
+        public override List<Student> GetAllRecordsFromDatabase()
         {
             return _repository.GetAll().OrderBy(s => s.LastName).ToList();
         }
@@ -48,21 +49,99 @@ namespace MyClassRecord.Controllers
             
         }
 
-        //TODO: Add validation
-        public override bool IsValid(ManagedEntity newRecord)
-        {
-            return true;
-        }
     }
 
     public class AddEditStudentManager : AddEditManager<Student>
     {
-        private AddEditStudentForm _addEditStudentForm;
+        private readonly AddEditStudentForm _addEditStudentForm;
 
         public AddEditStudentManager(AddEditStudentForm addEditStudentForm, Manager<Student> studentManager) 
             : base(addEditStudentForm, studentManager)
         {
             _addEditStudentForm = addEditStudentForm;
+        }
+
+        protected override void InitializeColorOfLabels()
+        {
+            _addEditStudentForm.firstNameLbl.ForeColor = Color.Black;
+            _addEditStudentForm.middelNameLbl.ForeColor = Color.Black;
+            _addEditStudentForm.lastNameLbl.ForeColor = Color.Black;
+            _addEditStudentForm.classLbl.ForeColor = Color.Black;
+            _addEditStudentForm.studentNoLbl.ForeColor = Color.Black;
+        }
+
+        protected override bool ValidateInputsForAdd()
+        {
+            return
+                validateStudentNumber(_addEditStudentForm.studentNoTxt.Text) &&
+                validateName(_addEditStudentForm.firstNameTxt.Text,
+                            _addEditStudentForm.middleNameTxt.Text,
+                            _addEditStudentForm.lastNameTxt.Text) &&
+                validateClass();
+        }
+
+        protected override bool ValidateInputsForUpdate(ManagedEntity newRecord)
+        {
+            Student studentRecord = (Student)newRecord;
+            return validateName(studentRecord.FirstName, studentRecord.MiddleName, studentRecord.LastName) &&
+                   validateStudentNumber(studentRecord.StudentNumber);
+
+        }
+
+        private bool validateClass()
+        {
+            if (_addEditStudentForm.classDropdown.SelectedItem == null)
+            {
+                _addEditStudentForm.classLbl.ForeColor = Color.Red;
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool validateName(string firstName, string middleName, string lastName)
+        {
+            if (string.IsNullOrEmpty(firstName))
+            {
+                _addEditStudentForm.firstNameLbl.ForeColor = Color.Red;
+                return false;
+            }
+            if (string.IsNullOrEmpty(middleName))
+            {
+                _addEditStudentForm.middelNameLbl.ForeColor = Color.Red;
+                return false;
+            }
+            if (string.IsNullOrEmpty(lastName))
+            {
+                _addEditStudentForm.lastNameLbl.ForeColor = Color.Red;
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool validateStudentNumber(string studentNumber)
+        {
+            if (string.IsNullOrEmpty(studentNumber))
+            {
+                _addEditStudentForm.studentNoLbl.ForeColor = Color.Red;
+                return false;
+            }
+            return true;
+        }
+
+        protected override bool IsExisting(ManagedEntity record)
+        {
+            Student studentRecord = (Student)record;
+
+            if (_manager.GetAllRecordsFromDatabase().FirstOrDefault(e =>
+                e.Id != studentRecord.Id &&
+                e.StudentNumber == studentRecord.StudentNumber) != null)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         protected override void SetControlValuesForEdit()

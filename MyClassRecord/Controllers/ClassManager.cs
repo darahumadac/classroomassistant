@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
+using System.Windows.Forms;
 using MongoDB.Driver;
 using MyClassRecord.Models;
 using MyClassRecord.Models.Repositories;
@@ -20,7 +22,7 @@ namespace MyClassRecord.Controllers
             base.InitializeManageForm();
         }
 
-        protected override List<Class> GetAllRecordsFromDatabase()
+        public override List<Class> GetAllRecordsFromDatabase()
         {
             return _repository.GetAll().OrderBy(c => c.Grade).ToList();
         }
@@ -45,20 +47,71 @@ namespace MyClassRecord.Controllers
             return base.UpdateRecord(selectedClass, updateStatement);
         }
 
-        //TODO: Add validation
-        public override bool IsValid(ManagedEntity newRecord)
-        {
-            return true;
-        }
     }
 
     public class AddEditClassManager : AddEditManager<Class>
     {
-        private AddEditClassForm _addEditClassForm;
+        private readonly AddEditClassForm _addEditClassForm;
+
         public AddEditClassManager(AddEditClassForm addEditClassForm, Manager<Class> classManager)
             : base(addEditClassForm, classManager)
         {
             _addEditClassForm = addEditClassForm;
+        }
+
+        protected override void InitializeColorOfLabels()
+        {
+            _addEditClassForm.sectionLbl.ForeColor = Color.Black;
+            _addEditClassForm.gradeLbl.ForeColor = Color.Black;
+        }
+
+        protected override bool ValidateInputsForUpdate(ManagedEntity record)
+        {
+            Class classRecord = (Class)record;
+
+            return validateSection(classRecord.Section) && classRecord.Grade > 0;
+        }
+
+        protected override bool ValidateInputsForAdd()
+        {
+            return validateGradeLevel() && validateSection(_addEditClassForm.sectionTxt.Text);
+        }
+
+        private bool validateSection(string section)
+        {
+            if (string.IsNullOrEmpty(section))
+            {
+                _addEditClassForm.sectionLbl.ForeColor = Color.Red;
+                return false;
+            }
+            return true;
+        }
+
+        private bool validateGradeLevel()
+        {
+            if (_addEditClassForm.gradeDropdown.SelectedItem == null)
+            {
+                _addEditClassForm.gradeLbl.ForeColor = Color.Red;
+                return false;
+            }
+
+            return true;
+        }
+
+        protected override bool IsExisting(ManagedEntity record)
+        {
+            Class classRecord = (Class)record;
+
+            //Check if same record exists
+            if (_manager.GetAllRecordsFromDatabase().FirstOrDefault(e =>
+                e.Id != record.Id &&
+                e.Grade == classRecord.Grade &&
+                e.Section == classRecord.Section) != null)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         protected override void SetControlValuesForEdit()
@@ -81,7 +134,7 @@ namespace MyClassRecord.Controllers
 
         protected override Class ConstructRecordToAdd()
         {
-            return new Class((int) _addEditClassForm.gradeDropdown.SelectedItem,
+            return new Class((int)_addEditClassForm.gradeDropdown.SelectedItem,
                 _addEditClassForm.sectionTxt.Text,
             _addEditClassForm.activeCheckbox.Checked);
         }

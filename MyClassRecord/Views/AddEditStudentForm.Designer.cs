@@ -31,14 +31,14 @@
             this.firstNameLbl = new System.Windows.Forms.Label();
             this.lastNameLbl = new System.Windows.Forms.Label();
             this.middelNameLbl = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.classLbl = new System.Windows.Forms.Label();
             this.firstNameTxt = new System.Windows.Forms.TextBox();
             this.middleNameTxt = new System.Windows.Forms.TextBox();
             this.lastNameTxt = new System.Windows.Forms.TextBox();
             this.classDropdown = new System.Windows.Forms.ComboBox();
             this.activeCheckbox = new System.Windows.Forms.CheckBox();
             this.studentNoTxt = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.studentNoLbl = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.submitBtn = new System.Windows.Forms.Button();
             this.cancelBtn = new System.Windows.Forms.Button();
@@ -71,14 +71,14 @@
             this.middelNameLbl.TabIndex = 2;
             this.middelNameLbl.Text = "Middle Name";
             // 
-            // label1
+            // classLbl
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(20, 190);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(77, 13);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Grade/Section";
+            this.classLbl.AutoSize = true;
+            this.classLbl.Location = new System.Drawing.Point(20, 190);
+            this.classLbl.Name = "classLbl";
+            this.classLbl.Size = new System.Drawing.Size(77, 13);
+            this.classLbl.TabIndex = 3;
+            this.classLbl.Text = "Grade/Section";
             // 
             // firstNameTxt
             // 
@@ -106,7 +106,10 @@
             // 
             // classDropdown
             // 
+            this.classDropdown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.classDropdown.FormattingEnabled = true;
+            this.classDropdown.Items.AddRange(new object[] {
+            "1 - Test Section"});
             this.classDropdown.Location = new System.Drawing.Point(103, 187);
             this.classDropdown.Name = "classDropdown";
             this.classDropdown.Size = new System.Drawing.Size(139, 21);
@@ -131,14 +134,14 @@
             this.studentNoTxt.Size = new System.Drawing.Size(140, 20);
             this.studentNoTxt.TabIndex = 11;
             // 
-            // label2
+            // studentNoLbl
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(33, 55);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(64, 13);
-            this.label2.TabIndex = 10;
-            this.label2.Text = "Student No.";
+            this.studentNoLbl.AutoSize = true;
+            this.studentNoLbl.Location = new System.Drawing.Point(33, 55);
+            this.studentNoLbl.Name = "studentNoLbl";
+            this.studentNoLbl.Size = new System.Drawing.Size(64, 13);
+            this.studentNoLbl.TabIndex = 10;
+            this.studentNoLbl.Text = "Student No.";
             // 
             // label3
             // 
@@ -179,13 +182,13 @@
             this.Controls.Add(this.submitBtn);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.studentNoTxt);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.studentNoLbl);
             this.Controls.Add(this.activeCheckbox);
             this.Controls.Add(this.classDropdown);
             this.Controls.Add(this.lastNameTxt);
             this.Controls.Add(this.middleNameTxt);
             this.Controls.Add(this.firstNameTxt);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.classLbl);
             this.Controls.Add(this.middelNameLbl);
             this.Controls.Add(this.lastNameLbl);
             this.Controls.Add(this.firstNameLbl);
@@ -199,11 +202,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Label firstNameLbl;
-        private System.Windows.Forms.Label lastNameLbl;
-        private System.Windows.Forms.Label middelNameLbl;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         internal System.Windows.Forms.TextBox firstNameTxt;
         internal System.Windows.Forms.TextBox middleNameTxt;
@@ -213,5 +211,10 @@
         internal System.Windows.Forms.TextBox studentNoTxt;
         internal System.Windows.Forms.Button submitBtn;
         internal System.Windows.Forms.Button cancelBtn;
+        internal System.Windows.Forms.Label firstNameLbl;
+        internal System.Windows.Forms.Label lastNameLbl;
+        internal System.Windows.Forms.Label middelNameLbl;
+        internal System.Windows.Forms.Label classLbl;
+        internal System.Windows.Forms.Label studentNoLbl;
     }
 }

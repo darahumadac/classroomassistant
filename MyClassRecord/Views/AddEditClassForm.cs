@@ -5,17 +5,14 @@ using MyClassRecord.Models;
 
 namespace MyClassRecord.Views
 {
-    public partial class AddEditClassForm : AddEditForm//Form
+    public partial class AddEditClassForm : AddEditForm
     {
-        private ClassManager _classManager;
-        private Class _selectedClass;
-        private AddEditManager<Class> _addEditClassManager;
+        private readonly AddEditManager<Class> _addEditClassManager;
 
         public AddEditClassForm(ClassManager classManager)
         {
             InitializeComponent();
             
-            _classManager = classManager;
             _addEditClassManager = new AddEditClassManager(this, classManager);
 
             //Add grade levels to dropdown
@@ -27,6 +24,7 @@ namespace MyClassRecord.Views
 
         private void AddEditClassForm_Load(object sender, EventArgs e)
         {
+            gradeDropdown.SelectedIndex = 0;
             _addEditClassManager.InitializeForm();
         }
 
@@ -39,7 +37,5 @@ namespace MyClassRecord.Views
         {
             _addEditClassManager.Cancel();
         }
-
-        
     }
 }

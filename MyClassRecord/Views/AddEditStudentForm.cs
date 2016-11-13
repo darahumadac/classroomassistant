@@ -5,22 +5,19 @@ using MyClassRecord.Models;
 
 namespace MyClassRecord.Views
 {
-    public partial class AddEditStudentForm : AddEditForm//Form
+    public partial class AddEditStudentForm : AddEditForm
     {
-        private StudentManager _studentManager;
-        private Student _selectedStudent;
-        private AddEditManager<Student> _addEditStudentManager;
+        private readonly AddEditManager<Student> _addEditStudentManager;
 
         public AddEditStudentForm(StudentManager studentManager)
         {
             InitializeComponent();
-
-            _studentManager = studentManager;
             _addEditStudentManager = new AddEditStudentManager(this, studentManager);
         }
 
         private void AddEditStudentForm_Load(object sender, EventArgs e)
         {
+            classDropdown.SelectedIndex = 0;
             _addEditStudentManager.InitializeForm();
         }
 
@@ -33,10 +30,5 @@ namespace MyClassRecord.Views
         {
             _addEditStudentManager.Cancel();
         }
-
-        
-
-
-
     }
 }

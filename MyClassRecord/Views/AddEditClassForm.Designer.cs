@@ -85,6 +85,7 @@
             // 
             // gradeDropdown
             // 
+            this.gradeDropdown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.gradeDropdown.FormattingEnabled = true;
             this.gradeDropdown.Location = new System.Drawing.Point(105, 30);
             this.gradeDropdown.Name = "gradeDropdown";
@@ -124,12 +125,12 @@
 
         #endregion
 
-        private System.Windows.Forms.Label gradeLbl;
-        private System.Windows.Forms.Label sectionLbl;
         private System.Windows.Forms.Button cancelBtn;
         internal System.Windows.Forms.Button submitBtn;
         internal System.Windows.Forms.TextBox sectionTxt;
         internal System.Windows.Forms.ComboBox gradeDropdown;
         internal System.Windows.Forms.CheckBox activeCheckbox;
+        internal System.Windows.Forms.Label gradeLbl;
+        internal System.Windows.Forms.Label sectionLbl;
     }
 }
