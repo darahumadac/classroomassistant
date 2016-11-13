@@ -27,9 +27,13 @@ namespace MyClassRecord.Models
 
         [Browsable(false)]
         public ObjectId ClassId { get; set; }
-        
+
+        [BsonIgnore]
         [DisplayName("Grade/Section")]
-        public Class GradeAndSection { get; set; }
+        public Class GradeAndSection
+        {
+            get { return LazyLoadingRepository.ClassRepository.GetById(ClassId); }
+        }
 
         public Student() { }
         public Student(string studentNum, string firstName, string middleName,
@@ -40,7 +44,6 @@ namespace MyClassRecord.Models
             MiddleName = middleName;
             LastName = lastName;
             ClassId = classId;
-            GradeAndSection = LazyLoadingRepository.ClassRepository.GetById(ClassId);
             IsActive = isActive;
         }
 

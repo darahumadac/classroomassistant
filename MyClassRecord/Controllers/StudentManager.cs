@@ -45,7 +45,7 @@ namespace MyClassRecord.Controllers
                 .Set("FirstName", currentStudent.FirstName)
                 .Set("MiddleName", currentStudent.MiddleName)
                 .Set("LastName", currentStudent.LastName)
-                .Set("GradeAndSection", currentStudent.GradeAndSection)
+                .Set("ClassId", currentStudent.ClassId)
                 .Set("IsActive", currentStudent.IsActive)
                 .Set("UpdatedBy", Program.LoggedInUser.Username)
                 .CurrentDate("UpdatedDate");
@@ -78,6 +78,8 @@ namespace MyClassRecord.Controllers
             {
                 _addEditStudentForm.sectionDropdown.Items.Add(gradeAndSection.Section);
             }
+
+            _addEditStudentForm.sectionDropdown.SelectedIndex = 0;
         }
 
         protected override void InitializeColorOfLabels()
@@ -172,8 +174,10 @@ namespace MyClassRecord.Controllers
             _addEditStudentForm.firstNameTxt.Text = _manager.SelectedRecord.FirstName;
             _addEditStudentForm.middleNameTxt.Text = _manager.SelectedRecord.MiddleName;
             _addEditStudentForm.lastNameTxt.Text = _manager.SelectedRecord.LastName;
-            //TODO: Add code for selecting class here
             _addEditStudentForm.activeCheckbox.Checked = _manager.SelectedRecord.IsActive;
+
+            _addEditStudentForm.gradeDropdown.SelectedIndex = _manager.SelectedRecord.GradeAndSection.Grade - 1;
+            _addEditStudentForm.sectionDropdown.SelectedItem = _manager.SelectedRecord.GradeAndSection.Section;
             
         }
 
@@ -182,8 +186,13 @@ namespace MyClassRecord.Controllers
             _manager.SelectedRecord.FirstName = _addEditStudentForm.firstNameTxt.Text;
             _manager.SelectedRecord.MiddleName = _addEditStudentForm.middleNameTxt.Text;
             _manager.SelectedRecord.LastName = _addEditStudentForm.lastNameTxt.Text;
-            //TODO: Add code for getting class from dropdown
             _manager.SelectedRecord.IsActive = _addEditStudentForm.activeCheckbox.Checked;
+
+            ObjectId classId = _classRepository.GetAll()
+                               .First(c => c.Grade == _addEditStudentForm.gradeDropdown.SelectedIndex + 1 &&
+                               c.Section == (string)_addEditStudentForm.sectionDropdown.SelectedItem).Id;
+
+            _manager.SelectedRecord.ClassId = classId;
         }
 
         protected override Student ConstructRecordToAdd()
